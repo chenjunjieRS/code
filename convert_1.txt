@@ -1,0 +1,30 @@
+filepath = 'E:/test_2/'  # 原始数据的路径
+outputdir = 'E:/test_2/'  # CDOM反演结果的数据路径
+# --------------------------------------------------------------
+
+filelist1 = os.listdir(filepath)
+
+inputlist = []
+outputlist = []
+for fl1 in filelist1:
+    outfile1 = outputdir + fl1[16:31] + 'convert_1.tif'
+    if os.path.exists(outfile1):
+        continue
+    else:
+        outputlist.append(outfile1)
+        filepath2 = filepath + fl1
+        inputlist.append(filepath2)
+
+for inputfile, outputfile in zip(inputlist, outputlist):
+    try:
+        print('开始处理-----------' + str(datetime.datetime.now()))
+        print(inputfile)
+        cmdline = 'gpt Convert-Datatype -Ssource="' + inputfile + '" -PsourceBands="cdom" '+'-PtargetDataType="float32" -t "' + outputfile + '" -f "GeoTIFF-BigTIFF"'
+        #check_call(cmdline)
+        print(cmdline)
+        print('处理结束-----------' + str(datetime.datetime.now()))
+        print('\n\n')
+
+    except:
+        print(inputfile + '处理失败')
+        continue
